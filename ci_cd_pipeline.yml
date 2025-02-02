@@ -28,24 +28,13 @@ jobs:
     steps:
       - name: Checkout du code
         uses: actions/checkout@v2
+      
       - name: Build de l’image Docker
-        run: docker-compose build
+        run: docker-compose -f .devcontainer/docker-compose.yml build
+
       - name: Exécuter les tests unitaires
-        run: docker-compose run dev-env bash -c "cd /workspace && python3 -m unittest test_capture_image.py"
+        run: docker-compose -f .devcontainer/docker-compose.yml run dev-env bash -c "cd /workspace/src && python3 -m unittest discover"
 
-services:
-  dev-env:
-    container_name: dev-env
-    build: .
-    volumes:
-      - ../:/workspace
-    working_dir: /workspace
-    command: sleep infinity
+      - name: Tester la capture d’image
+        run: docker-compose -f .devcontainer/docker-compose.yml run dev-env bash -c "python3 /workspace/src/capture_image_logging.py && ls -l /workspace/src/images/ && cat /workspace/src/logs/simulation.log"
 
-  vnc-server:
-    image: x11vnc/desktop
-    container_name: vnc-server
-    ports:
-      - "5900:5900"
-    environment:
-      - VNC_PASSWORD=yourpassword
