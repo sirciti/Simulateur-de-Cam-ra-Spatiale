@@ -1,34 +1,12 @@
 {
     "name": "Simulateur de Caméra Spatiale",
-    "image": "mcr.microsoft.com/devcontainers/base:bullseye",
-    "features": {
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {
-            "version": "latest",
-            "enableNonRootDocker": "true",
-            "moby": "true"
-        }
-    },
-    "build": {
-        "dockerfile": "Dockerfile"
-    },
-    "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash"
-    },
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "dev-env",
+    "workspaceFolder": "/workspace",
+    "remoteUser": "vscode",
     "extensions": [
         "ms-vscode.cpptools",
         "ms-python.python",
         "ms-vscode.cmake-tools"
-    ],
-    "forwardPorts": [8080, 14500],
-    "postCreateCommand": "echo 'Devcontainer is ready!'",
-    "remoteUser": "vscode",
-    "mounts": [
-        "source=${localWorkspaceFolder},target=/workspace,type=bind"
-    ],
-    "runArgs": [
-        "--cap-add=SYS_ADMIN",
-        "--device=/dev/dri",
-        "--env=DISPLAY=:14"
     ]
 }
-

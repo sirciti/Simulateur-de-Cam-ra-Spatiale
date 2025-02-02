@@ -1,0 +1,14 @@
+services:
+  dev-env:
+    build: .
+    volumes:
+      - ..:/workspace
+    working_dir: /workspace
+    command: sleep infinity
+
+  vnc-server:
+    image: x11vnc/desktop
+    ports:
+      - "5900:5900"
+    environment:
+      - VNC_PASSWORD=yourpassword
